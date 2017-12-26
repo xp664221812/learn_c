@@ -70,6 +70,8 @@ int main()
         return 0;
     }
 
+    printf("msgid:%d\n",msg_id);
+
     msg_show_attr(msg_id,msg_info);
 
     msg_sflag=IPC_NOWAIT;
