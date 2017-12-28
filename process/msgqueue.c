@@ -12,6 +12,7 @@ void msg_show_attr(int msgid,struct msqid_ds msg_info){
     sleep(1);
     ret=msgctl(msgid,IPC_STAT,&msg_info);
     if(-1==ret){
+        perror("get msg");
         printf("获取消息失败\n");
         return;
     }
@@ -66,11 +67,10 @@ int main()
     msg_id=msgget(key,msg_flags|0x0666);
 
     if(-1==msg_id){
+        perror("msg get");
         printf("消息建立失败\n");
         return 0;
     }
-
-    printf("msgid:%d\n",msg_id);
 
     msg_show_attr(msg_id,msg_info);
 
@@ -81,6 +81,7 @@ int main()
     ret=msgsnd(msg_id,&msg_mbuf,sizeof("测试消息"),msg_sflag);
 
     if(-1==ret){
+        perror("send msg error");
         printf("发送消息失败\n");
     }
     msg_show_attr(msg_id,msg_info);
@@ -89,6 +90,7 @@ int main()
     ret =msgrcv(msg_id,&msg_mbuf,10,10,msg_rflag);
 
     if(-1==ret){
+        perror("receive msg error");
         printf("接收消息失败\n");
     }else{
         printf("接收消息成功，长度：%d\n",ret);
@@ -100,6 +102,9 @@ int main()
     msg_info.msg_perm.gid=8;
     msg_info.msg_qbytes=12345;
     ret=msgctl(msg_id,IPC_SET,&msg_info);
+
+
+    printf("set msg ret:%d\n",ret);
     if(-1==ret){
         printf("设置消息属性失败\n");
         return 0;
