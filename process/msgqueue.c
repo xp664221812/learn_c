@@ -47,8 +47,8 @@ int main()
     int msg_flags,msg_id;
     key_t key;
     struct msgmbuf{
-        int mtype;
-        char mtext[10];
+        long mtype;
+        char mtext[20];
     };
 
     struct msqid_ds msg_info;
