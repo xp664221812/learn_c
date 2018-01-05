@@ -24,7 +24,7 @@ sem_t createSem(key_t key,int value){
     union semun sem;
     sem_t semid;
     sem.val=value;
-    semid=semget(key,0,IPC_CREAT|0x0666);
+    semid=semget(key,1,IPC_CREAT|0x0666);
 
     if(-1==semid){
         perror("create sem error");
@@ -78,9 +78,6 @@ void destroySem(sem_t semid){
 
 
 
-
-
-
 int main()
 {
 
@@ -90,6 +87,7 @@ int main()
     int value = 0;
 
     key=ftok("ipc/sem/",'a');
+    printf("k===%d\n",key);
     semid=createSem(key,100);
 
     for(i=0;i<=3;i++){
@@ -107,8 +105,6 @@ int main()
 
 
 }
-
-
 
 
 
