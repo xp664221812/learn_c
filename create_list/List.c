@@ -34,14 +34,63 @@ enum Status List_init(SqListPtr L)
     return s;
 }
 
-
 //按线性表位置查找
-enum Status List_Retrival(SqListPtr L,int pos,ElemType *elem)
+enum Status List_Retrival(SqListPtr L, int pos, ElemType *elem)
 {
-    enum Status s=range_error;
-    
+    enum Status s = range_error;
+    if (L)
+    {
+        if ((pos - 1) >= 0 && (pos - 1) < L->length)
+        {
+            *elem = L->elem[pos - 1];
+            s = success;
+        }
+    }
+    else
+    {
+        s = fatal;
+    }
 
     return s;
 }
 
+//按值查找位置
+enum Status List_Locate(SqListPtr L, int *pos, ElemType *elem)
+{
+    enum Status s = range_error;
+    for (int i = 0; i < L->length; i++)
+    {
+        if (L->elem[i] == elem)
+        {
+            *elem = i + 1;
+            s = success;
+            break;
+        }
+    }
+    return s;
+}
 
+//插入数据
+enum Status List_Insert(SqListPtr L, int pos, ElemType elem)
+{
+    enum Status s = range_error;
+    if ((pos - 1) > 0 && (pos - 1) <= L->length)
+    {
+        if (L && L->length < L->list_size)
+        {
+            for (int i = L->length; i > (pos - 1); i--)
+            {
+                L->elem[i + 1] = L->elem[i];
+            }
+            L->elem[pos - 1] = enum;
+            L->length++;
+            s = success;
+        }
+    }
+    else
+    {
+        s = fail;
+    }
+
+    return s;
+}
