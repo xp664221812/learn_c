@@ -82,7 +82,7 @@ enum Status List_Insert(SqListPtr L, int pos, ElemType elem)
             {
                 L->elem[i + 1] = L->elem[i];
             }
-            L->elem[pos - 1] = enum;
+            L->elem[pos - 1] = elem;
             L->length++;
             s = success;
         }
@@ -92,5 +92,27 @@ enum Status List_Insert(SqListPtr L, int pos, ElemType elem)
         s = fail;
     }
 
+    return s;
+}
+//删除操作
+enum Status List_Delete(SqListPtr L, int pos)
+{
+    enum Status s = range_error;
+    if ((pos - 1) < L->length || (pos - 1) > 0)
+    {
+        if (L && L->length > 0)
+        {
+            for (int i = pos; i < L->length; i++)
+            {
+                L->elem[i - 1] = L->elem[i];
+            }
+            L->length--;
+            s = success;
+        }
+    }
+    else
+    {
+        s = fail;
+    }
     return s;
 }
